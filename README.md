@@ -1,6 +1,6 @@
 [![Java CI with Maven](https://github.com/sylviocheleiro2/Pipelines-de-CI-CD-e-DevOps_devcalc-api/actions/workflows/gradle-ci.yml/badge.svg)](https://github.com/sylviocheleiro2/Pipelines-de-CI-CD-e-DevOps_devcalc-api/actions/workflows/gradle-ci.yml)
 
-# Dev Calc 1
+# Dev Calc 1 - teste badge
 
 ## Objetivo do Projeto
 
