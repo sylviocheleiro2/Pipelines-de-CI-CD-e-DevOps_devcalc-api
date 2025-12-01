@@ -5,6 +5,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+// TESTANDO PR YAML
 @RestController // 1. Marca a classe como um Controller REST
 public class CalculadoraController
 {
