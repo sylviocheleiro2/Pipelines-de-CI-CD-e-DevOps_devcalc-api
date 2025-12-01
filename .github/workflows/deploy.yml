@@ -1,0 +1,73 @@
+name: Deploy nos 3 Environments
+
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  # --- Job para o ambiente de Desenvolvimento ---
+  deploy-dev:
+    runs-on: ubuntu-latest
+    environment: 
+      name: development
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v3
+      - name: "DEV: Fake Deploy Step"
+        run: |
+          echo "Iniciando deploy para o ambiente de Desenvolvimento..."
+          echo "Ambiente: development"
+          echo "Deploy em DEV concluído."
+
+  # --- Job para o ambiente de Staging (Homologação) ---
+  deploy-staging:
+    runs-on: ubuntu-latest
+    needs: deploy-dev # Este job só roda se 'deploy-dev' for bem-sucedido
+    environment:
+      name: staging
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v3
+      - name: "STAGING: Fake Deploy Step"
+        env:
+          # Usando o secret definido para o ambiente 'staging'
+          STAGING_KEY: ${{ secrets.DEPLOY_KEY }}
+        run: |
+          echo "Iniciando deploy para o ambiente de Staging..."
+          echo "Ambiente: staging"
+          # A chave real não será impressa no log, o GitHub irá mascará-la como '***'
+          echo "Usando a chave de deploy: $STAGING_KEY"
+          if [ -n "$STAGING_KEY" ]; then
+            echo "Credencial de Staging carregada com sucesso."
+          else
+            echo "ERRO: Credencial de Staging não encontrada."
+            exit 1
+          fi
+          echo "Deploy em STAGING concluído."
+
+  # --- Job para o ambiente de Produção ---
+  deploy-prod:
+    runs-on: ubuntu-latest
+    needs: deploy-staging # Este job só roda se 'deploy-staging' for bem-sucedido
+    environment:
+      name: production
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v3
+      - name: "PROD: Fake Deploy Step"
+        env:
+          # Usando o secret definido para o ambiente 'production'
+          PROD_KEY: ${{ secrets.DEPLOY_KEY }}
+        run: |
+          echo "Iniciando deploy para o ambiente de PRODUÇÃO..."
+          echo "Ambiente: production"
+          # A chave real também será mascarada aqui
+          echo "Usando a chave de deploy: $PROD_KEY"
+          if [ -n "$PROD_KEY" ]; then
+            echo "Credencial de Produção carregada com sucesso."
+          else
+            echo "ERRO: Credencial de Produção não encontrada."
+            exit 1
+          fi
+          echo "Deploy em PRODUÇÃO concluído."
